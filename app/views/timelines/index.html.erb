@@ -6,6 +6,8 @@
                 <%= f.label :message %><br/>
                     <% if @input_message.persisted? %>
                         編集中
+                    <% elsif @reply_timeline %>
+                        <%= @reply_timeline.user.name %>の｢<%= truncate(@reply_timeline.message, length: 7) %>｣に返信
                     <% end %>
                     <br/>
                     
@@ -21,7 +23,7 @@
                 </div>
                 
                 <div class="post">
-                    <% if @input_message.persisted? %>
+                    <% if @input_message.persisted? || @reply_timeline %>
                         <%= link_to root_path do %>
                             <%= button_tag 'Cancel', class: 'btn btn-default' %>
                         <% end %>
@@ -30,6 +32,7 @@
                     <%= f.submit 'Post', class: 'btn btn-primary' %>
                 </div>
             </div>
+            <%= f.hidden_field :reply_id, value: @reply_timeline.id if @reply_timeline %>
         <% end %>
     </div>
     <div class="user_filter">
@@ -45,22 +48,8 @@
     </div>
     <div class="timeline">
         <% @timeline.each do |t| %>
-            <div class="per <%= 'mine' if t.user.id == current_user.id %>">
-                <p class="icon">
-                    <% if t.user.thumbnail? %>
-                        <%= image_tag t.user.thumbnail.url %>
-                    <% else %>
-                        NO IMAGE
-                    <% end %>
-                </p>
-                <%= simple_format t.message, class: 'message' %>
-                <% if mypost?(t) %>
-                    <%= link_to root_path(id: t.id, message: t.message) do %>
-                        <%= button_tag 'Edit', class: 'btn btn-info' %>
-                    <% end %>
-                <% end %>
-                
-            </div>
+           
+            <%= render 'timelines/timeline', t: t %>
         <%  end %>
     </div>
 </div>

@@ -1,0 +1,23 @@
+<% is_reply = false if is_reply.nil? %>
+<div class="per <%= 'mine' if mypost?(t) %> <%= 'reply' if is_reply %>">
+    <p class="icon">
+        <% if t.user.thumbnail? %>
+            <%= image_tag t.user.thumbnail.url %>
+        <% else %>
+            NO IMAGE
+        <% end %>
+    </p>
+    <%= simple_format t.message, class: 'message' %>
+    <% if mypost?(t) %>
+        <%= link_to root_path(id: t.id, message: t.message) do %>
+            <%= button_tag 'Edit', class: 'btn btn-info' %>
+        <% end %>
+    <% else %>
+        <%= link_to root_path(reply_id: t.id) do %>
+            <%=button_tag 'Re', class: 'btn btn-info' %>
+        <% end %>
+    <% end %>
+</div>
+<% t.replies.each do |r| %>
+    <%= render 'timelines/timeline', t: r, is_reply: true %>
+<% end %>
