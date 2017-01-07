@@ -32,6 +32,17 @@
             </div>
         <% end %>
     </div>
+    <div class="user_filter">
+        <%= form_tag filter_by_user_timelines_path do |f| %>
+            <div class="form-group">
+                <label>ユーザフィルター</label><br/>
+                <%= select_tag :filter_user_id, options_for_select(@users.map { |m| [m.name, m.id] }, params[:filter_user_id]), prompt: 'フィルターなし', class: 'form-control' %>
+            </div>
+            <div class="actions">
+                <%= submit_tag 'Apply', class: 'btn btn-primary' %>
+            </div>
+        <% end %>
+    </div>
     <div class="timeline">
         <% @timeline.each do |t| %>
             <div class="per <%= 'mine' if t.user.id == current_user.id %>">
