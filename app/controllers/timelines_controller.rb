@@ -18,7 +18,12 @@ class TimelinesController < ApplicationController
         else
             flash[:alert] = timeline.errors.full_messages
         end
-        redirect_to action: :index
+        unless request.format.json?
+            redirect_to action: :index
+        else
+            html = render_to_string partial: 'timelines/timeline', layout: false, formats: :html, locals: { t: timeline }
+            render json: {timeline: html}
+        end
     end
     
     def update

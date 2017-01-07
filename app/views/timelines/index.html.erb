@@ -1,7 +1,7 @@
 <div class="wrapper timeline_wrapper">
     
     <div class="input">
-        <%= form_for @input_message do |f| %>
+        <%= form_for @input_message, remote: true, html: {class: 'input_message_form'}, format: :json, authenticity_token: true do |f| %>
             <div class="form-group">
                 <%= f.label :message %><br/>
                     <% if @input_message.persisted? %>
@@ -29,7 +29,8 @@
                         <% end %>
                     <% end %>
                     
-                    <%= f.submit 'Post', class: 'btn btn-primary' %>
+                    <%= f.submit 'Post', class: 'btn btn-primary post' %>
+                    <%= f.submit 'AjaxPost', class: 'btn btn-primary ajaxpost' %>
                 </div>
             </div>
             <%= f.hidden_field :reply_id, value: @reply_timeline.id if @reply_timeline %>
