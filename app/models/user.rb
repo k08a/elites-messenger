@@ -6,4 +6,7 @@ class User < ActiveRecord::Base
          
   mount_uploader :thumbnail, UserThumbnailUploader
   
+  validates :name, presence: true
+  validates :agreement, presence: true, acceptance: {accept: true}
+  
 end
