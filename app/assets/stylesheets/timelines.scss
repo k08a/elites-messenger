@@ -57,6 +57,18 @@
                 vertical-align: top;
                 word-wrap: break-word;
             }
+            
+            .operation {
+                display: inline-block;
+                button {
+                    margin-bottom: 3px;
+                }
+                .button_to {
+                    input.btn {
+                        width: 50px;
+                    }
+                }
+            }
         }
     }
     .user_filter {

@@ -32,6 +32,12 @@ class TimelinesController < ApplicationController
         redirect_to action: :index
     end
     
+    def destroy
+        timeline = Timeline.find(params[:id])
+        timeline.destroy
+        redirect_to action: :index
+    end
+    
     def filter_by_user
         if params[:filter_user_id].present?
             redirect_to action: :index, filter_user_id: params[:filter_user_id]

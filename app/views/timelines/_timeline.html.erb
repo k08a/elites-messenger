@@ -9,9 +9,12 @@
     </p>
     <%= simple_format t.message, class: 'message' %>
     <% if mypost?(t) %>
-        <%= link_to root_path(id: t.id, message: t.message) do %>
-            <%= button_tag 'Edit', class: 'btn btn-info' %>
-        <% end %>
+        <div class="operation">
+            <%= link_to root_path(id: t.id, message: t.message) do %>
+                <%= button_tag 'Edit', class: 'btn btn-info' %>
+            <% end %>
+            <%= button_to 'Del', timeline_path(t), method: :delete, class: 'btn btn-danger', data: {confirm: '削除してよろしいですか?'} %>
+        </div>
     <% else %>
         <%= link_to root_path(reply_id: t.id) do %>
             <%=button_tag 'Re', class: 'btn btn-info' %>
