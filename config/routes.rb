@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   root to: 'timelines#index'
+  devise_for :users  
   
-    devise_for :users  
+  resources :timelines
 
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
