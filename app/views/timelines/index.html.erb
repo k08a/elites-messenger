@@ -4,7 +4,12 @@
         <%= form_for @input_message do |f| %>
             <div class="form-group">
                 <%= f.label :message %><br/>
-                <%= f.text_area :message, class: 'form-control', rows: 3 %>
+                    <% if @input_message.persisted? %>
+                        編集中
+                    <% end %>
+                    <br/>
+                    
+                <%= f.text_area :message, class: 'form-control', row: 3 %>
             </div>
             <div class="actions clearfix">
                 <div class="alert">
@@ -16,6 +21,12 @@
                 </div>
                 
                 <div class="post">
+                    <% if @input_message.persisted? %>
+                        <%= link_to root_path do %>
+                            <%= button_tag 'Cancel', class: 'btn btn-default' %>
+                        <% end %>
+                    <% end %>
+                    
                     <%= f.submit 'Post', class: 'btn btn-primary' %>
                 </div>
             </div>
@@ -32,6 +43,11 @@
                     <% end %>
                 </p>
                 <%= simple_format t.message, class: 'message' %>
+                <% if mypost?(t) %>
+                    <%= link_to root_path(id: t.id, message: t.message) do %>
+                        <%= button_tag 'Edit', class: 'btn btn-info' %>
+                    <% end %>
+                <% end %>
                 
             </div>
         <%  end %>
