@@ -15,15 +15,34 @@ class TimelinesController < ApplicationController
         timeline.user_id = current_user.id
         if timeline.valid?
             timeline.save!
+            
+            respond_to do |format|
+                format.html do
+                    redirect_to action: :index
+                end
+                
+                format.json do
+                    html = render_to_string partial: 'timelines/timeline', layout: false, formats: :html, locals: { t: timeline }
+                    render json: {timeline: html}
+                end
+            end
         else
-            flash[:alert] = timeline.errors.full_messages
+            respond_to do |format|
+                format.html do
+                    flash[:alert] = timeline.errors.full_messages
+                    redirect_to action: :index
+                end
+                format.json do
+                    render json: {errors: timeline.errors.full_messages}
+                end
+            end
         end
-        unless request.format.json?
-            redirect_to action: :index
-        else
-            html = render_to_string partial: 'timelines/timeline', layout: false, formats: :html, locals: { t: timeline }
-            render json: {timeline: html}
-        end
+        # unless request.format.json?
+        #     redirect_to action: :index
+        # else
+        #     html = render_to_string partial: 'timelines/timeline', layout: false, formats: :html, locals: { t: timeline }
+        #     render json: {timeline: html}
+        # end
     end
     
     def update
